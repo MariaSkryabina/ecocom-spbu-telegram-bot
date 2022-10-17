@@ -3,6 +3,10 @@ from aiogram.types import Message
 
 
 async def admin_start(message: Message):
+    """
+
+    :type message: object
+    """
     await message.reply("Hello, admin!")
 
 
