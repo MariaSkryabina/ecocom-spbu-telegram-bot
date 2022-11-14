@@ -45,7 +45,7 @@ async def sorting(call: types.CallbackQuery):
                types.InlineKeyboardButton(text="📰 бумага", callback_data="PAPER"),
                types.InlineKeyboardButton(text="♷ PP", callback_data="PP"),
                types.InlineKeyboardButton(text="🧃 Tetra Pak", callback_data="TP"),
-               types.InlineKeyboardButton(text="батарейки", callback_data="BT"),
+               types.InlineKeyboardButton(text="🔋батарейки", callback_data="BT"),
                types.InlineKeyboardButton(text="крышечки", callback_data="CAPS"),
                types.InlineKeyboardButton(text="⬅ Назад", callback_data="START"),
                ]
@@ -135,6 +135,67 @@ async def caps(call: types.CallbackQuery):
     await call.answer()
     await UserStates.next()
 
+async def info (call: types.CallbackQuery):
+    text = ["В этом разделе ты можешь узнать подробнее о нашей деятельности:"]
+
+    buttons = [types.InlineKeyboardButton(text="Кто мы", callback_data="WHO"),
+               types.InlineKeyboardButton(text="Проекты", callback_data="PJ"),
+               types.InlineKeyboardButton(text="Мероприятия семестра", callback_data="PLAN"),
+               types.InlineKeyboardButton(text="Присоединиться", callback_data="JOIN"),
+               types.InlineKeyboardButton(text="Задать вопрос", callback_data="ASK")
+               ]
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    keyboard.add(*buttons)
+    await call.message.answer('\n'.join(text), reply_markup=keyboard)
+    await call.answer()
+    await UserStates.next()
+
+async def who (call: types.CallbackQuery):
+    text = ["Кто мы такие? Кто знает нас.....никто:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    keyboard.add(*buttons)
+    await call.message.answer('\n'.join(text), reply_markup=keyboard)
+    await call.answer()
+    await UserStates.next()
+
+async def projects (call: types.CallbackQuery):
+    text = ["Есть Vegan Week, Одеться на стипендию, сбор вторсырья"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    keyboard.add(*buttons)
+    await call.message.answer('\n'.join(text), reply_markup=keyboard)
+    await call.answer()
+    await UserStates.next()
+
+
+async def mero (call: types.CallbackQuery):
+    text = ["20 ноября сбор вторсырья в пунке"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    keyboard.add(*buttons)
+    await call.message.answer('\n'.join(text), reply_markup=keyboard)
+    await call.answer()
+    await UserStates.next()
+
+async def join (call: types.CallbackQuery):
+    text = ["Хочешь все время думать о нас?:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    keyboard.add(*buttons)
+    await call.message.answer('\n'.join(text), reply_markup=keyboard)
+    await call.answer()
+    await UserStates.next()
+
+
+async def ask (call: types.CallbackQuery):
+    text = ["Не надо спрашивать, прочитай!"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    keyboard.add(*buttons)
+    await call.message.answer('\n'.join(text), reply_markup=keyboard)
+    await call.answer()
+    await UserStates.next()
 
 def register_user(dp: Dispatcher):
     dp.register_message_handler(user_start, commands=["start"], state="*")
@@ -148,3 +209,9 @@ def register_user(dp: Dispatcher):
     dp.register_callback_query_handler(tetra_pak, text="TP", state="*")
     dp.register_callback_query_handler(batteries, text="BT", state="*")
     dp.register_callback_query_handler(caps, text="CAPS", state="*")
+    dp.register_callback_query_handler(info, text="info", state="*")
+    dp.register_callback_query_handler(who, text="WHO", state="*")
+    dp.register_callback_query_handler(projects, text="PJ", state="*")
+    dp.register_callback_query_handler(mero, text="PLAN", state="*")
+    dp.register_callback_query_handler(join, text="JOIN", state="*")
+    dp.register_callback_query_handler(ask, text="ASK", state="*")
