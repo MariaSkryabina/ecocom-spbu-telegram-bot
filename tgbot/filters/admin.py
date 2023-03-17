@@ -17,3 +17,15 @@ class AdminFilter(BoundFilter):
         config: Config = obj.bot.get('config')
         return (obj.from_user.id in config.tg_bot.admin_ids) == self.is_admin
 
+
+class SupportFilter(BoundFilter):
+    key = 'is_support'
+
+    def __init__(self, is_support: typing.Optional[bool] = None):
+        self.is_support = is_support
+
+    async def check(self, obj):
+        if self.is_support is None:
+            return False
+        config: Config = obj.bot.get('config')
+        return (obj.from_user.id in config.tg_bot.support_ids) == self.is_support
