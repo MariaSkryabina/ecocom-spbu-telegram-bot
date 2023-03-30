@@ -59,98 +59,71 @@ async def sorting(call: types.CallbackQuery):
 
 
 async def pet(call: types.CallbackQuery):
-    text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
-               types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
-               types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
-    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    text = ["Выбери наиболее удобную точку приёма PET пластика:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
 
 async def glass(call: types.CallbackQuery):
-    text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
-               types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
-               types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
-    keyboard = types.InlineKeyboardMarkup(row_width = 2)
+    text = ["Выбери наиболее удобную точку приёма стекла:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
 
 async def aluminium(call: types.CallbackQuery):
-    text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
-               types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
-               types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
-    keyboard = types.InlineKeyboardMarkup(row_width = 2)
+    text = ["Выбери наиболее удобную точку приёма алюминия:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
 
 async def paper(call: types.CallbackQuery):
-    text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
-               types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
-               types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
-    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    text = ["Выбери наиболее удобную точку приёма бумаги:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
 
 async def pp(call: types.CallbackQuery):
-    text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
-               types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
-               types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
-    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    text = ["Выбери наиболее удобную точку 5 пластика:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
 
 async def tetra_pak(call: types.CallbackQuery):
-    text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
-               types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
-               types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
-    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    text = ["Выбери наиболее удобную точку приёма Tetra Pak:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
 
 async def batteries(call: types.CallbackQuery):
-    text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
-               types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
-               types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
-    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    text = ["Выбери наиболее удобную точку приёма батареек:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
 
 async def caps(call: types.CallbackQuery):
-    text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
-               types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
-               types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
-    keyboard = types.InlineKeyboardMarkup(row_width=2)
-    keyboard.add(*buttons)
-    await call.message.answer('\n'.join(text), reply_markup=keyboard)
-    await call.answer()
-    await UserStates.next()
-
-
-async def make_list(call: types.CallbackQuery):
-    text = ["Здесь будет отсортированный список точек. "
-            "Скорее всего делать отправку информации по цифре мы делать не будем."]
-    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
+    text = ["Выбери наиболее удобную точку приёма крышечек:"]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
