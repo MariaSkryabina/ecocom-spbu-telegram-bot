@@ -1,8 +1,6 @@
-from aiogram import Dispatcher
+from aiogram import Dispatcher, types
 from aiogram.types import Message
 from aiogram.dispatcher import FSMContext
-
-d = -1
 
 
 def extract_id(message: Message) -> int:
@@ -57,4 +55,4 @@ async def stop_chatting(call: types.CallbackQuery, message: Message):
 
 def register_admin(dp: Dispatcher):
     dp.register_message_handler(reply_to_user, state='*', is_reply=True, is_support=True)
-    dp.register_callback_query_handler(stop_chatting, text=str(d), state="*")
+
