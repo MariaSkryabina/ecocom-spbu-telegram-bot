@@ -1,5 +1,8 @@
-from aiogram import Dispatcher
+from aiogram import Dispatcher, types
 from aiogram.types import Message
+from aiogram.dispatcher import FSMContext
+
+d = -1
 
 
 def extract_id(message: Message) -> int:
@@ -33,5 +36,25 @@ async def reply_to_user(message: Message):
     await message.copy_to(user_id)
 
 
+async def stop_chatting(call: types.CallbackQuery, message: Message):
+    click_sign = call.data*(-1)
+
+    def create_keyboard_for_question(d):
+        NOK = "❌"
+        OK = "✅"
+        if d == -1:
+            buttons = [types.InlineKeyboardButton(text=NOK + " закончить диалог", callback_data=str(-d))]
+        else:
+            buttons = [types.InlineKeyboardButton(text=OK + " закончить диалог", callback_data=str(-d))]
+
+        question_keyboard = types.InlineKeyboardMarkup(row_width=1)
+        question_keyboard.add(*buttons)
+        return question_keyboard
+
+    text = "#question" + f"\n\n{message.html_text}" + f"\n\n#id{message.from_user.id}"
+    await call.message.edit_text('\n'.join(text), reply_markup=create_keyboard_for_question(click_sign))
+
+
 def register_admin(dp: Dispatcher):
     dp.register_message_handler(reply_to_user, state='*', is_reply=True, is_support=True)
+    dp.register_callback_query_handler(stop_chatting, text=str(d), state="*")
