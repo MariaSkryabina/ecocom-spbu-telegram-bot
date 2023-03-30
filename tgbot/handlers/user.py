@@ -147,24 +147,34 @@ async def caps(call: types.CallbackQuery):
     await UserStates.next()
 
 
-async def make_list(call: types.CallbackQuery):
-    text = ["Здесь будет отсортированный список точек. "
-            "Скорее всего делать отправку информации по цифре мы делать не будем."]
-    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
-    keyboard = types.InlineKeyboardMarkup(row_width=1)
+
+async def bulbs(call: types.CallbackQuery):
+    text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
+    buttons = [types.InlineKeyboardButton(text="Показать все", callback_data="LIST"),
+               types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
+               types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
-
-async def bulbs(call: types.CallbackQuery):
-    text = ["Выбери наиболее удобную точку приёма лампочек:"]
+async def make_list(call: types.CallbackQuery):
+    text = ["Здесь будет отсортированный список точек. "
+            "Скорее всего делать отправку информации по цифре мы делать не будем."]
     buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
+async def show_near(call: types.CallbackQuery):
+    text = ["Здесь будет отсортированный список точек. "
+            "Скорее всего делать отправку информации по цифре мы делать не будем."]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    keyboard.add(*buttons)
+    await call.message.answer('\n'.join(text), reply_markup=keyboard)
+    await call.answer()
 
 async def info(call: types.CallbackQuery):
     text = ["В этом разделе ты можешь узнать подробнее о нашей деятельности:"]
@@ -299,6 +309,8 @@ def register_user(dp: Dispatcher):
     dp.register_callback_query_handler(batteries, text="BT", state="*")
     dp.register_callback_query_handler(caps, text="CAPS", state="*")
     dp.register_callback_query_handler(bulbs, text="BULB", state="*")
+    dp.register_callback_query_handler(make_list, text="LIST", state="*")
+    dp.register_callback_query_handler(show_near, text= "NEAR", state="*")
     dp.register_callback_query_handler(info, text="info", state="*")
     dp.register_callback_query_handler(who, text="WHO", state="*")
     dp.register_callback_query_handler(projects, text="PJ", state="*")
