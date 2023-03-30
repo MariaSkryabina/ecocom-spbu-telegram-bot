@@ -12,7 +12,7 @@ from tgbot.handlers.echo import register_echo
 from tgbot.handlers.admin import register_admin
 from tgbot.handlers.user import register_user
 from tgbot.middlewares.environment import EnvironmentMiddleware
-
+from tgbot.data_base import sqlite_db
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +46,7 @@ async def main():
 
     bot['config'] = config
 
+    sqlite_db.sql_start()
     register_all_middlewares(dp, config)
     register_all_filters(dp)
     register_all_handlers(dp)
