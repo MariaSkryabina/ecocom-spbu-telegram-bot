@@ -184,7 +184,6 @@ async def info(call: types.CallbackQuery):
 
     buttons = [types.InlineKeyboardButton(text="Кто мы", callback_data="WHO"),
                types.InlineKeyboardButton(text="Проекты", callback_data="PJ"),
-               types.InlineKeyboardButton(text="Мероприятия семестра", callback_data="PLAN"),
                types.InlineKeyboardButton(text="Присоединиться", callback_data="JOIN"),
                types.InlineKeyboardButton(text="⬅ Назад", callback_data="START"),
                ]
@@ -205,15 +204,6 @@ async def who(call: types.CallbackQuery):
 
 async def projects(call: types.CallbackQuery):
     text = messages.projects
-    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
-    keyboard = types.InlineKeyboardMarkup(row_width=1)
-    keyboard.add(*buttons)
-    await call.message.answer('\n'.join(text), reply_markup=keyboard)
-    await call.answer()
-
-
-async def mero(call: types.CallbackQuery):
-    text = ["20 ноября сбор вторсырья в пунке"]
     buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
@@ -317,7 +307,6 @@ def register_user(dp: Dispatcher):
     dp.register_callback_query_handler(info, text="info", state="*")
     dp.register_callback_query_handler(who, text="WHO", state="*")
     dp.register_callback_query_handler(projects, text="PJ", state="*")
-    dp.register_callback_query_handler(mero, text="PLAN", state="*")
     dp.register_callback_query_handler(join, text="JOIN", state="*")
     dp.register_callback_query_handler(message_to_support, text="message", state="*")
     dp.register_callback_query_handler(ask_question, text="ask question", state="*")
