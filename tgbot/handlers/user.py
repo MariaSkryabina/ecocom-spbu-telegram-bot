@@ -72,7 +72,7 @@ async def pet(call: types.CallbackQuery):
 
 async def glass(call: types.CallbackQuery):
     text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
+    buttons = [types.InlineKeyboardButton(text="Показать все", callback_data = "LIST"),
                types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
                types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
     keyboard = types.InlineKeyboardMarkup(row_width = 2)
@@ -83,7 +83,7 @@ async def glass(call: types.CallbackQuery):
 
 async def aluminium(call: types.CallbackQuery):
     text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
+    buttons = [types.InlineKeyboardButton(text="Показать все", callback_data = "LIST"),
                types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
                types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
     keyboard = types.InlineKeyboardMarkup(row_width = 2)
@@ -94,7 +94,7 @@ async def aluminium(call: types.CallbackQuery):
 
 async def paper(call: types.CallbackQuery):
     text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
+    buttons = [types.InlineKeyboardButton(text="Показать все", callback_data = "LIST"),
                types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
                types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
     keyboard = types.InlineKeyboardMarkup(row_width=2)
@@ -105,7 +105,7 @@ async def paper(call: types.CallbackQuery):
 
 async def pp(call: types.CallbackQuery):
     text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
+    buttons = [types.InlineKeyboardButton(text="Показать все", callback_data = "LIST"),
                types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
                types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
     keyboard = types.InlineKeyboardMarkup(row_width=2)
@@ -221,7 +221,7 @@ async def join(call: types.CallbackQuery):
 
 
 async def message_to_support(call: types.CallbackQuery):
-    text = ["Хотите дать обратную связь экокому? А может задать вопрос? Всегда рады!"]
+    text = messages.support_initial
     buttons = [types.InlineKeyboardButton(text="Задать вопрос", callback_data="ask question"),
                types.InlineKeyboardButton(text="Дать обратную связь", callback_data="feedback"),
                types.InlineKeyboardButton(text="⬅ Назад", callback_data="START")]
@@ -232,7 +232,7 @@ async def message_to_support(call: types.CallbackQuery):
 
 
 async def ask_question(call: types.CallbackQuery, state: FSMContext):
-    text = ["Напишите свой вопрос."]
+    text = messages.question_initial
     buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="START")]
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
@@ -242,9 +242,7 @@ async def ask_question(call: types.CallbackQuery, state: FSMContext):
 
 
 async def give_feedback(call: types.CallbackQuery, state: FSMContext):
-    text = ["Напишите вашу обратную связь по работе экологического комитета."
-            " Это может быть фидбек по мероприятию, идея по улучшению нашей деятельности"
-            " или другая информация, которую вам кажется важным до нас донести."]
+    text = messages.feedback_initial
     buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="START")]
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
@@ -254,7 +252,7 @@ async def give_feedback(call: types.CallbackQuery, state: FSMContext):
 
 
 async def forward_feedback(message: Message, config: Config):
-    text = ["Ваше сообщение отправлено! Спасибо за помощь и вклад в улучшение нашей деятельности."]
+    text = messages.feedback_final
     await message.bot.send_message(
         config.tg_bot.support_ids[0],
         "#feedback" + f"\n\n{message.html_text}" + f"\n\n#id{message.from_user.id}", parse_mode="HTML"
@@ -266,7 +264,7 @@ async def forward_feedback(message: Message, config: Config):
 
 
 async def forward_question(message: Message, config: Config):
-    text = ["Сообщение экокому отправлено. В ближайшее время вы получите ответ."]
+    text = messages.question_final
 
     def create_keyboard_for_question(d):
         NOK = "❌"
@@ -274,7 +272,7 @@ async def forward_question(message: Message, config: Config):
         if d == -1:
             buttons = [types.InlineKeyboardButton(text=NOK + " закончить диалог", callback_data=str(d))]
         else:
-            buttons = [types.InlineKeyboardButton(text=OK + " закончить диалог", callback_data=str(d))]
+            buttons = [types.InlineKeyboardButton(text=OK + "диалог закончен", callback_data=str(d))]
 
         question_keyboard = types.InlineKeyboardMarkup(row_width=1)
         question_keyboard.add(*buttons)

@@ -4,11 +4,7 @@ from aiogram.dispatcher import FSMContext
 
 
 def extract_id(message: Message) -> int:
-    """
-    Извлекает ID юзера из хэштега в сообщении
-    :param message: сообщение, из хэштега в котором нужно достать айди пользователя
-    :return: ID пользователя, извлечённый из хэштега в сообщении
-    """
+
     # Получение списка сущностей (entities) из текста или подписи к медиафайлу в отвечаемом сообщении
     entities = message.entities or message.caption_entities
     # Если всё сделано верно, то последняя (или единственная) сущность должна быть хэштегом...
