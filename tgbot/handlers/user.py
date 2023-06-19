@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from tgbot.config import Config
 from aiogram.dispatcher import FSMContext
+import tgbot.misc.messages.messages as messages
 
 
 class UserStates(StatesGroup):
@@ -147,7 +148,6 @@ async def caps(call: types.CallbackQuery):
     await UserStates.next()
 
 
-
 async def bulbs(call: types.CallbackQuery):
     text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
     buttons = [types.InlineKeyboardButton(text="Показать все", callback_data="LIST"),
@@ -158,6 +158,7 @@ async def bulbs(call: types.CallbackQuery):
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
+
 async def make_list(call: types.CallbackQuery):
     text = ["Здесь будет отсортированный список точек. "
             "Скорее всего делать отправку информации по цифре мы делать не будем."]
@@ -167,6 +168,7 @@ async def make_list(call: types.CallbackQuery):
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
 
+
 async def show_near(call: types.CallbackQuery):
     text = ["Здесь будет отсортированный список точек. "
             "Скорее всего делать отправку информации по цифре мы делать не будем."]
@@ -175,6 +177,7 @@ async def show_near(call: types.CallbackQuery):
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
+
 
 async def info(call: types.CallbackQuery):
     text = ["В этом разделе ты можешь узнать подробнее о нашей деятельности:"]
@@ -192,7 +195,7 @@ async def info(call: types.CallbackQuery):
 
 
 async def who(call: types.CallbackQuery):
-    text = ["Кто мы такие? Кто знает нас.....никто:"]
+    text = messages.who_we_are
     buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
@@ -201,7 +204,7 @@ async def who(call: types.CallbackQuery):
 
 
 async def projects(call: types.CallbackQuery):
-    text = ["Есть Vegan Week, Одеться на стипендию, сбор вторсырья"]
+    text = messages.projects
     buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
