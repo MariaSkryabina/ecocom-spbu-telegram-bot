@@ -1,5 +1,6 @@
 from aiogram import Dispatcher, types
 from aiogram.types import Message
+from tgbot.handlers.user import create_keyboard_for_question
 from aiogram.dispatcher import FSMContext
 
 
@@ -21,32 +22,18 @@ def extract_id(message: Message) -> int:
 
 async def reply_to_user(message: Message):
 
+    cb_data = int(message.reply_to_message.reply_markup.inline_keyboard[0][0].callback_data)
     # Вырезаем ID
     try:
         user_id = extract_id(message.reply_to_message)
     except ValueError as ex:
         return await message.reply(str(ex))
 
-    await message.copy_to(user_id)
-
-
-async def stop_chatting(call: types.CallbackQuery, message: Message):
-    click_sign = call.data*(-1)
-
-    def create_keyboard_for_question(d):
-        NOK = "❌"
-        OK = "✅"
-        if d == -1:
-            buttons = [types.InlineKeyboardButton(text=NOK + " закончить диалог", callback_data=str(-d))]
-        else:
-            buttons = [types.InlineKeyboardButton(text=OK + " закончить диалог", callback_data=str(-d))]
-
-        question_keyboard = types.InlineKeyboardMarkup(row_width=1)
-        question_keyboard.add(*buttons)
-        return question_keyboard
-
-    text = "#question" + f"\n\n{message.html_text}" + f"\n\n#id{message.from_user.id}"
-    await call.message.edit_text('\n'.join(text), reply_markup=create_keyboard_for_question(click_sign))
+    buttons = [types.InlineKeyboardButton(text="⬅ Закрыть чат и вернуться назад", callback_data="START")]
+    keyboard_for_user = types.InlineKeyboardMarkup(row_width=1)
+    keyboard_for_user.add(*buttons)
+    await message.copy_to(user_id, reply_markup=keyboard_for_user)
+    await message.reply_to_message.edit_reply_markup(reply_markup=create_keyboard_for_question(d=cb_data*(-1)))
 
 
 def register_admin(dp: Dispatcher):

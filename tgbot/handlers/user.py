@@ -11,6 +11,8 @@ class UserStates(StatesGroup):
     waiting_for_question_to_forward = State()
     waiting_for_feedback_to_forward = State()
     waiting_for_message_from_admin = State()
+    feedback_forwarded = State()
+    dialog_with_support_opened = State()
 
 
 async def user_start(message: Message, state: FSMContext):
@@ -251,7 +253,7 @@ async def give_feedback(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(UserStates.waiting_for_feedback_to_forward.state)
 
 
-async def forward_feedback(message: Message, config: Config):
+async def forward_feedback(message: Message, config: Config, state:FSMContext):
     text = messages.feedback_final
     await message.bot.send_message(
         config.tg_bot.support_ids[0],
@@ -261,30 +263,35 @@ async def forward_feedback(message: Message, config: Config):
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await message.answer('\n'.join(text), reply_markup=keyboard)
+    await state.set_state(UserStates.feedback_forwarded.state)
 
 
-async def forward_question(message: Message, config: Config):
+def create_keyboard_for_question(d):
+
+    NOK = "❌"
+    OK = "✅"
+    if d == -1:
+        buttons = [types.InlineKeyboardButton(text=NOK + "сообщение без ответа", callback_data=str(d))]
+    else:
+        buttons = [types.InlineKeyboardButton(text=OK + "отвечено", callback_data=str(d))]
+
+    question_keyboard = types.InlineKeyboardMarkup(row_width=1)
+    question_keyboard.add(*buttons)
+    return question_keyboard
+
+
+async def forward_question(message: Message, config: Config, state: FSMContext):
+
     text = messages.question_final
+    keyboard_for_support = create_keyboard_for_question(d=-1)
 
-    def create_keyboard_for_question(d):
-        NOK = "❌"
-        OK = "✅"
-        if d == -1:
-            buttons = [types.InlineKeyboardButton(text=NOK + " закончить диалог", callback_data=str(d))]
-        else:
-            buttons = [types.InlineKeyboardButton(text=OK + "диалог закончен", callback_data=str(d))]
-
-        question_keyboard = types.InlineKeyboardMarkup(row_width=1)
-        question_keyboard.add(*buttons)
-        return question_keyboard
-
-    keyboard = create_keyboard_for_question(d=-1)
     await message.bot.send_message(
         config.tg_bot.support_ids[0],
         "#question" + f"\n\n{message.html_text}" + f"\n\n#id{message.from_user.id}", parse_mode="HTML",
-        reply_markup=keyboard
+        reply_markup=keyboard_for_support
     )
     await message.answer('\n'.join(text))
+    # await state.set_state(UserStates.dialog_with_support_opened.state)
 
 
 def register_user(dp: Dispatcher):
