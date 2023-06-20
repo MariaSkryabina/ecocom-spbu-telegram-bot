@@ -8,8 +8,8 @@ import tgbot.misc.messages.messages as messages
 
 class UserStates(StatesGroup):
     initial_state = State()
-    waiting_for_question_to_forward = State()
-    waiting_for_feedback_to_forward = State()
+    writing_question_to_forward = State()
+    writing_feedback_to_forward = State()
     waiting_for_message_from_admin = State()
     feedback_forwarded = State()
     dialog_with_support_opened = State()
@@ -240,7 +240,7 @@ async def ask_question(call: types.CallbackQuery, state: FSMContext):
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
-    await state.set_state(UserStates.waiting_for_question_to_forward.state)
+    await state.set_state(UserStates.writing_question_to_forward.state)
 
 
 async def give_feedback(call: types.CallbackQuery, state: FSMContext):
@@ -250,7 +250,7 @@ async def give_feedback(call: types.CallbackQuery, state: FSMContext):
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
-    await state.set_state(UserStates.waiting_for_feedback_to_forward.state)
+    await state.set_state(UserStates.writing_feedback_to_forward.state)
 
 
 async def forward_feedback(message: Message, config: Config, state:FSMContext):
@@ -316,6 +316,6 @@ def register_user(dp: Dispatcher):
     dp.register_callback_query_handler(message_to_support, text="message", state="*")
     dp.register_callback_query_handler(ask_question, text="ask question", state="*")
     dp.register_callback_query_handler(give_feedback, text="feedback", state="*")
-    dp.register_message_handler(forward_feedback, state=UserStates.waiting_for_feedback_to_forward)
-    dp.register_message_handler(forward_question, state=UserStates.waiting_for_question_to_forward)
+    dp.register_message_handler(forward_feedback, state=UserStates.writing_feedback_to_forward)
+    dp.register_message_handler(forward_question, state=UserStates.writing_question_to_forward)
     # dp.register_callback_query_handler(stop_chatting, text="stop", state="*")
