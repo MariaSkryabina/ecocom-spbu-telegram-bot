@@ -41,7 +41,7 @@ async def user_start_back(call: types.CallbackQuery, state: FSMContext):
 
 
 async def sorting(call: types.CallbackQuery):
-    text = ["В этом разделе ты можешь узнать подробнее о точках приема вторсырья на территории нашего "
+    text = ["В этом разделе ты можешь узнать подробнее о точках приема вторресурсов на территории нашего "
             "университета.", "Выбери интересующую тебя фракцию из списка:"]
 
     buttons = [types.InlineKeyboardButton(text="♳ PET", callback_data="PET"),
@@ -63,7 +63,7 @@ async def sorting(call: types.CallbackQuery):
 
 async def pet(call: types.CallbackQuery):
     text = ["Можно посмотреть список всех точек РСО или найти 5 рядом! Жми на кнопочку)"]
-    buttons = [types.InlineKeyboardButton(text = "Показать все", callback_data = "LIST"),
+    buttons = [types.InlineKeyboardButton(text="Показать все", callback_data = "LIST"),
                types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
                types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
     keyboard = types.InlineKeyboardMarkup(row_width=2)
