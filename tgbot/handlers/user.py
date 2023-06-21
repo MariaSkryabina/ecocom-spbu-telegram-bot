@@ -217,7 +217,8 @@ async def send_document_about_ecocom(call: types.CallbackQuery):
 
 async def projects(call: types.CallbackQuery):
     text = messages.projects
-    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
+    buttons = [types.InlineKeyboardButton(text="Хочу с Вами!", callback_data="JOIN"),
+               types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
@@ -270,7 +271,7 @@ async def forward_feedback(message: Message, config: Config, state:FSMContext):
         config.tg_bot.support_ids[0],
         "#feedback" + f"\n\n{message.html_text}" + f"\n\n#id{message.from_user.id}", parse_mode="HTML"
     )
-    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="info")]
+    buttons = [types.InlineKeyboardButton(text="⬅ Назад", callback_data="message")]
     keyboard = types.InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await message.answer('\n'.join(text), reply_markup=keyboard)
@@ -327,7 +328,7 @@ def register_user(dp: Dispatcher):
     dp.register_callback_query_handler(message_to_support, text="message", state="*")
     dp.register_callback_query_handler(ask_question, text="ask question", state="*")
     dp.register_callback_query_handler(give_feedback, text="feedback", state="*")
-    dp.register_callback_query_handler(give_feedback, text="feedback", state="*")
     dp.register_callback_query_handler(send_document_about_ecocom, text="send_document", state="*")
     dp.register_message_handler(forward_question, state=UserStates.writing_question_to_forward)
+    dp.register_message_handler(forward_feedback, state=UserStates.writing_feedback_to_forward)
     # dp.register_callback_query_handler(stop_chatting, text="stop", state="*")
