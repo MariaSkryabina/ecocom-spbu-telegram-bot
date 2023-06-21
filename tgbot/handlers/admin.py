@@ -1,6 +1,6 @@
 from aiogram import Dispatcher, types
 from aiogram.types import Message
-from tgbot.handlers.user import create_keyboard_for_question
+from tgbot.keyboards.inline import create_keyboard_for_question
 from aiogram.dispatcher import FSMContext
 
 
