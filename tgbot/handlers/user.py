@@ -1,10 +1,13 @@
 from aiogram import Dispatcher, types
-from aiogram.types import Message
+from aiogram.types import Message, InputFile
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from tgbot.config import Config
 from aiogram.dispatcher import FSMContext
 import tgbot.misc.messages.messages as messages
 import tgbot.keyboards.inline as keyboards
+from pathlib import Path
+
+ECOCOM_PPT_DIRECTORY = Path(__file__).resolve().parent.parent / "misc" / "files"
 
 
 class UserStates(StatesGroup):
@@ -145,8 +148,10 @@ async def who(call: types.CallbackQuery):
 async def send_document_about_ecocom(call: types.CallbackQuery):
     text = messages.send_document
     keyboard = keyboards.send_doc_about_ecocom_keyboard()
+    ppt = InputFile(ECOCOM_PPT_DIRECTORY / "ecocom_ppt.pdf")
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
+    await call.message.reply_document(document=ppt)
 
 
 async def projects(call: types.CallbackQuery):
@@ -169,19 +174,6 @@ async def message_to_support(call: types.CallbackQuery, state: FSMContext):
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
     await state.set_state(UserStates.writing_question_to_forward.state)
-
-
-# async def ask_question(call: types.CallbackQuery, state: FSMContext):
-#     text = messages.question_initial
-#     keyboard = keyboards.back_to_info_keyboard()
-#
-#
-# async def give_feedback(call: types.CallbackQuery, state: FSMContext):
-#     text = messages.feedback_initial
-#     keyboard = keyboards.back_to_info_keyboard()
-#     await call.message.answer('\n'.join(text), reply_markup=keyboard)
-#     await call.answer()
-#     await state.set_state(UserStates.writing_feedback_to_forward.state)
 
 
 async def forward_feedback(message: Message, config: Config, state:FSMContext):
@@ -233,9 +225,7 @@ def register_user(dp: Dispatcher):
     dp.register_callback_query_handler(projects, text="PJ", state="*")
     dp.register_callback_query_handler(join, text="JOIN", state="*")
     dp.register_callback_query_handler(message_to_support, text="message", state="*")
-    # dp.register_callback_query_handler(ask_question, text="ask question", state="*")
-    # dp.register_callback_query_handler(give_feedback, text="feedback", state="*")
     dp.register_callback_query_handler(send_document_about_ecocom, text="send_document", state="*")
     dp.register_message_handler(forward_question, state=UserStates.writing_question_to_forward)
     dp.register_message_handler(forward_feedback, state=UserStates.writing_feedback_to_forward)
-    # dp.register_callback_query_handler(stop_chatting, text="stop", state="*")
+
