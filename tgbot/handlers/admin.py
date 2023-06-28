@@ -36,6 +36,13 @@ async def reply_to_user(message: Message):
     await message.reply_to_message.edit_reply_markup(reply_markup=create_keyboard_for_question(d=cb_data*(-1)))
 
 
+async def change_check_button_manually(call: types.CallbackQuery):
+    cb_data = int(call.message.reply_markup.inline_keyboard[0][0].callback_data)
+    await call.message.edit_reply_markup(reply_markup=create_keyboard_for_question(d=cb_data * (-1)))
+    await call.answer()
+
+
 def register_admin(dp: Dispatcher):
     dp.register_message_handler(reply_to_user, state='*', is_reply=True, is_support=True)
+    dp.register_callback_query_handler(change_check_button_manually, state="*", text=["1", "-1"], is_support=True)
 

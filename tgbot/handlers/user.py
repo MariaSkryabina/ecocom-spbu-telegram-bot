@@ -163,27 +163,25 @@ async def join(call: types.CallbackQuery):
     await call.answer()
 
 
-async def message_to_support(call: types.CallbackQuery):
+async def message_to_support(call: types.CallbackQuery, state: FSMContext):
     text = messages.support_initial
-    keyboard = keyboards.message_to_support_keyboard()
-    await call.message.answer('\n'.join(text), reply_markup=keyboard)
-    await call.answer()
-
-
-async def ask_question(call: types.CallbackQuery, state: FSMContext):
-    text = messages.question_initial
     keyboard = keyboards.back_to_info_keyboard()
     await call.message.answer('\n'.join(text), reply_markup=keyboard)
     await call.answer()
     await state.set_state(UserStates.writing_question_to_forward.state)
 
 
-async def give_feedback(call: types.CallbackQuery, state: FSMContext):
-    text = messages.feedback_initial
-    keyboard = keyboards.back_to_info_keyboard()
-    await call.message.answer('\n'.join(text), reply_markup=keyboard)
-    await call.answer()
-    await state.set_state(UserStates.writing_feedback_to_forward.state)
+# async def ask_question(call: types.CallbackQuery, state: FSMContext):
+#     text = messages.question_initial
+#     keyboard = keyboards.back_to_info_keyboard()
+#
+#
+# async def give_feedback(call: types.CallbackQuery, state: FSMContext):
+#     text = messages.feedback_initial
+#     keyboard = keyboards.back_to_info_keyboard()
+#     await call.message.answer('\n'.join(text), reply_markup=keyboard)
+#     await call.answer()
+#     await state.set_state(UserStates.writing_feedback_to_forward.state)
 
 
 async def forward_feedback(message: Message, config: Config, state:FSMContext):
@@ -197,7 +195,6 @@ async def forward_feedback(message: Message, config: Config, state:FSMContext):
     await state.set_state(UserStates.feedback_forwarded.state)
 
 
-
 async def forward_question(message: Message, config: Config, state: FSMContext):
 
     text = messages.question_final
@@ -205,7 +202,10 @@ async def forward_question(message: Message, config: Config, state: FSMContext):
 
     await message.bot.send_message(
         config.tg_bot.support_ids[0],
-        "#question" + f"\n\n{message.html_text}" + f"\n\n#id{message.from_user.id}", parse_mode="HTML",
+        f"#from_student (нажми на <b>Reply</b>, чтобы ответить)\n"
+        "-----------------------------\n\n"
+        f"{message.html_text}\n\n"
+        f"#id{message.from_user.id}", parse_mode="HTML",
         reply_markup=keyboard_for_support
     )
     await message.answer('\n'.join(text))
@@ -233,8 +233,8 @@ def register_user(dp: Dispatcher):
     dp.register_callback_query_handler(projects, text="PJ", state="*")
     dp.register_callback_query_handler(join, text="JOIN", state="*")
     dp.register_callback_query_handler(message_to_support, text="message", state="*")
-    dp.register_callback_query_handler(ask_question, text="ask question", state="*")
-    dp.register_callback_query_handler(give_feedback, text="feedback", state="*")
+    # dp.register_callback_query_handler(ask_question, text="ask question", state="*")
+    # dp.register_callback_query_handler(give_feedback, text="feedback", state="*")
     dp.register_callback_query_handler(send_document_about_ecocom, text="send_document", state="*")
     dp.register_message_handler(forward_question, state=UserStates.writing_question_to_forward)
     dp.register_message_handler(forward_feedback, state=UserStates.writing_feedback_to_forward)
