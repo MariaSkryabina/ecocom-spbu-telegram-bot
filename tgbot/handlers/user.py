@@ -26,6 +26,15 @@ async def user_start(message: Message, state: FSMContext):
     await state.set_state(UserStates.initial_state.state)
 
 
+async def user_help(message: Message, state: FSMContext):
+    text = messages.user_help
+    buttons = [types.InlineKeyboardButton(text="Главное меню", callback_data="sort")]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    keyboard.add(*buttons)
+    await message.answer('\n'.join(text), reply_markup=keyboard)
+    await state.set_state(UserStates.initial_state.state)
+
+
 async def user_start_back(call: types.CallbackQuery, state: FSMContext):
     text = messages.user_start
     keyboard = keyboards.user_start_keyboard()
@@ -176,7 +185,7 @@ async def message_to_support(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(UserStates.writing_question_to_forward.state)
 
 
-async def forward_feedback(message: Message, config: Config, state:FSMContext):
+async def forward_feedback(message: Message, config: Config, state: FSMContext):
     text = messages.feedback_final
     await message.bot.send_message(
         config.tg_bot.support_ids[0],
@@ -219,7 +228,7 @@ def register_user(dp: Dispatcher):
     dp.register_callback_query_handler(caps, text="CAPS", state="*")
     dp.register_callback_query_handler(bulbs, text="BULB", state="*")
     dp.register_callback_query_handler(make_list, text="LIST", state="*")
-    dp.register_callback_query_handler(show_near, text= "NEAR", state="*")
+    dp.register_callback_query_handler(show_near, text="NEAR", state="*")
     dp.register_callback_query_handler(info, text="info", state="*")
     dp.register_callback_query_handler(who, text="WHO", state="*")
     dp.register_callback_query_handler(projects, text="PJ", state="*")
@@ -228,4 +237,3 @@ def register_user(dp: Dispatcher):
     dp.register_callback_query_handler(send_document_about_ecocom, text="send_document", state="*")
     dp.register_message_handler(forward_question, state=UserStates.writing_question_to_forward)
     dp.register_message_handler(forward_feedback, state=UserStates.writing_feedback_to_forward)
-
