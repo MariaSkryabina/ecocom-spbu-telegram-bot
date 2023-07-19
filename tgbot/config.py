@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from environs import Env
 from typing import List
 
+from sqlalchemy.engine.url import URL
+
 
 @dataclass
 class DbConfig:
@@ -10,6 +12,24 @@ class DbConfig:
     password: str
     user: str
     database: str
+    port: int = 5432
+
+    # For SQLAlchemy
+    def construct_sqlalchemy_url(self, driver="asyncpg", host=None, port=None) -> str:
+
+        if not host:
+            host = self.host
+        if not port:
+            port = self.port
+        uri = URL.create(
+            drivername=f"postgresql+{driver}",
+            username=self.user,
+            password=self.password,
+            host=host,
+            port=port,
+            database=self.database,
+        )
+        return uri.render_as_string(hide_password=False)
 
 
 @dataclass
@@ -45,9 +65,9 @@ def load_config(path: str = None):
         ),
         db=DbConfig(
             host=env.str('DB_HOST'),
-            password=env.str('DB_PASS'),
-            user=env.str('DB_USER'),
-            database=env.str('DB_NAME')
+            password=env.str('POSTGRES_PASSWORD'),
+            user=env.str('POSTGRES_USER', 'PG_CONTAINER_NAME'),
+            database=env.str('POSTGRES_DB')
         ),
         misc=Miscellaneous()
     )
