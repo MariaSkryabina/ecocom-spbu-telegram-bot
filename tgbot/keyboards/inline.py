@@ -27,8 +27,8 @@ def user_start_keyboard():
 
 def sorting_keyboard():
     sorting_categories = {"PET": "♳ PET", "GL": "🫙 стекло", "AL": "🖇️ алюминий", "PAPER": "📰 бумага",
-                          "PP_HARD": "♷ PP (твердый)", "PP_SOFT": "♷ PP (мягкий)", "TP": "🧃 Tetra Pak",
-                          "BT": "🔋батарейки", "CAPS": "🔘 крышечки", "BULB": "💡 лампочки", "START": "⬅ Назад"}
+                          "PP_HARD": "♷ PP (твердый)", "PP_SOFT": "♷ PP (мягкий)", "TP": "🧃 Tetra Pak", "BT": "🔋батарейки",
+                          "CAPS": "🔘 крышечки", "BULB": "💡 лампочки", "START": "⬅ Назад"}
     buttons = []
     for key in sorting_categories:
         buttons.append(types.InlineKeyboardButton(text=sorting_categories[key], callback_data=key))
@@ -38,7 +38,7 @@ def sorting_keyboard():
 
 
 def sorting_search_options():
-    buttons = [types.InlineKeyboardButton(text="Показать все", callback_data="LIST"),
+    buttons = [types.InlineKeyboardButton(text="Показать все", callback_data = "LIST"),
                types.InlineKeyboardButton(text="Найти ближайшие", callback_data="NEAR"),
                types.InlineKeyboardButton(text="⬅ Назад", callback_data="sort")]
     keyboard = types.InlineKeyboardMarkup(row_width=2)
@@ -96,7 +96,6 @@ def message_to_support_keyboard():
     keyboard.add(*buttons)
 
     return keyboard
-
 
 def forward_feedback():
 
